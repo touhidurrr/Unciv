@@ -46,6 +46,10 @@ object DiacriticSupport {
             sb.append(accumulator)
             accumulator.clear()
         }
+        fun space() {
+            flush()
+            sb.append(' ')
+        }
         fun flushJoined(char: Char) {
             if (accumulator.isEmpty()) {
                 sb.append(char) // pass out-of-place joiners through
@@ -66,6 +70,7 @@ object DiacriticSupport {
 
         for (char in value) {
             when (char) {
+                ' ' -> space()
                 in leftDiacritics -> flushJoined(char)
                 in joinerDiacritics -> accumulator.append(char)
                 else -> flushAndStore(char)
